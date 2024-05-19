@@ -9,7 +9,7 @@ load_dotenv()
 
 app = Flask(__name__)
 
-# Construct the DATABASE_URI from environment variables
+
 IDOC_USER = os.getenv('IDOC_USER')
 IDOC_PWD = os.getenv('IDOC_PWD')
 IDOC_HOST = os.getenv('IDOC_HOST')
@@ -28,9 +28,4 @@ def index():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-
-
-
-
 

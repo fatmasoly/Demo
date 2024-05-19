@@ -14,12 +14,12 @@ class Doctor(BaseModel):
     __tablename__ = 'doctor'
     
     name = db.Column(VARCHAR(100), nullable=False)
-    phone = db.Column(INTEGER, nullable=False)
+    phone = db.Column(VARCHAR(50), nullable=False)
     email = db.Column(VARCHAR(100), nullable=False)
     photo = db.Column(VARCHAR(255))
-    price = db.Column(VARCHAR(50))
+    price = db.Column(float(50))
     
-    specialization_id = db.Column(VARCHAR(36), ForeignKey('specialization.id'), nullable=False)
+    specialization_id = db.Column(VARCHAR(606), ForeignKey('specialization.id'), nullable=False)
     clinic_id = db.Column(VARCHAR(36), ForeignKey('clinic.id'), nullable=False)
     user = relationship("User", uselist=False, back_populates="doctor")
     specialization = relationship("Specialization", back_populates="doctors")
@@ -33,10 +33,10 @@ class Clinic(BaseModel):
     phone = db.Column(INTEGER, nullable=False)
     email = db.Column(VARCHAR(100), nullable=False)
     address = db.Column(VARCHAR(255), nullable=False)
-    working_hours = db.Column(TIME, nullable=False)
+    working_hours = db.Column(VARCHAR(50), nullable=False)
     photo = db.Column(VARCHAR(255))
     
-    governorate_id = db.Column(VARCHAR(36), ForeignKey('governorate.id'), nullable=False)
+    governorate_id = db.Column(VARCHAR(60), ForeignKey('governorate.id'), nullable=False)
     user = relationship("User", uselist=False, back_populates="clinic")
     governorate = relationship("Governorate", back_populates="clinics")
     doctors = relationship("Doctor", back_populates="clinic")
@@ -55,8 +55,8 @@ class User(BaseModel):
     email = db.Column(VARCHAR(100), nullable=False)
     password = db.Column(VARCHAR(255), nullable=False)
     
-    doctor_id = db.Column(VARCHAR(36), ForeignKey('doctor.id'), unique=True)
-    clinic_id = db.Column(VARCHAR(36), ForeignKey('clinic.id'), unique=True)
+    doctor_id = db.Column(VARCHAR(60), ForeignKey('doctor.id'), unique=True)
+    clinic_id = db.Column(VARCHAR(60), ForeignKey('clinic.id'), unique=True)
     doctor = relationship("Doctor", back_populates="user")
     clinic = relationship("Clinic", back_populates="user")
     roles = relationship("Role", uselist=False, back_populates="user")
@@ -64,8 +64,8 @@ class User(BaseModel):
 class Role(BaseModel):
     __tablename__ = 'roles'
 
-    user_id = db.Column(VARCHAR(36), ForeignKey('user.id'), nullable=False, unique=True)
-    role = db.Column(VARCHAR(50), nullable=False)
+    user_id = db.Column(VARCHAR(60), ForeignKey('user.id'), nullable=False, unique=True)
+    role_name = db.Column(VARCHAR(50), nullable=False)
     user = relationship("User", back_populates="roles")
 
 class Patient(BaseModel):
@@ -85,9 +85,9 @@ class Appointment(BaseModel):
     status = db.Column(BOOLEAN, nullable=False)
     seen = db.Column(BOOLEAN, nullable=False)
     
-    clinic_id = db.Column(VARCHAR(36), ForeignKey('clinic.id'), nullable=False)
-    patient_id = db.Column(VARCHAR(36), ForeignKey('patient.id'), nullable=False)
-    doctor_id = db.Column(VARCHAR(36), ForeignKey('doctor.id'), nullable=False)
+    clinic_id = db.Column(VARCHAR(60), ForeignKey('clinic.id'), nullable=False)
+    patient_id = db.Column(VARCHAR(60), ForeignKey('patient.id'), nullable=False)
+    doctor_id = db.Column(VARCHAR(60), ForeignKey('doctor.id'), nullable=False)
     clinic = relationship("Clinic", back_populates="appointments")
     patient = relationship("Patient", back_populates="appointments")
     doctor = relationship("Doctor", back_populates="appointments")
@@ -99,5 +99,5 @@ class Message(BaseModel):
     message_body = db.Column(TEXT, nullable=False)
     status = db.Column(BOOLEAN, nullable=False)
     
-    appointment_id = db.Column(VARCHAR(36), ForeignKey('appointment.id'), nullable=False, unique=True)
+    appointment_id = db.Column(VARCHAR(60), ForeignKey('appointment.id'), nullable=False, unique=True)
     appointment = relationship("Appointment", back_populates="messages")

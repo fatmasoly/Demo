@@ -3,7 +3,6 @@ import uuid
 from sqlalchemy.dialects.mysql import VARCHAR
 from models.models import *
 
-
 class BaseModel(db.Model):
     __abstract__ = True
     
