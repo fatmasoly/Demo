@@ -17,10 +17,10 @@ class Doctor(BaseModel):
     phone = db.Column(VARCHAR(50), nullable=False)
     email = db.Column(VARCHAR(100), nullable=False)
     photo = db.Column(VARCHAR(255))
-    price = db.Column(float(50))
+    price = db.Column(INTEGER)
     
     specialization_id = db.Column(VARCHAR(606), ForeignKey('specialization.id'), nullable=False)
-    clinic_id = db.Column(VARCHAR(36), ForeignKey('clinic.id'), nullable=False)
+    clinic_id = db.Column(VARCHAR(36), ForeignKey('clinic.id'), nullable=True)
     user = relationship("User", uselist=False, back_populates="doctor")
     specialization = relationship("Specialization", back_populates="doctors")
     clinic = relationship("Clinic", back_populates="doctors")
@@ -30,7 +30,7 @@ class Clinic(BaseModel):
     __tablename__ = 'clinic'
     
     name = db.Column(VARCHAR(100), nullable=False)
-    phone = db.Column(INTEGER, nullable=False)
+    phone = db.Column(VARCHAR(50), nullable=False)
     email = db.Column(VARCHAR(100), nullable=False)
     address = db.Column(VARCHAR(255), nullable=False)
     working_hours = db.Column(VARCHAR(50), nullable=False)
@@ -65,14 +65,14 @@ class Role(BaseModel):
     __tablename__ = 'roles'
 
     user_id = db.Column(VARCHAR(60), ForeignKey('user.id'), nullable=False, unique=True)
-    role_name = db.Column(VARCHAR(50), nullable=False)
+    role_name = db.Column(VARCHAR(100), nullable=False)
     user = relationship("User", back_populates="roles")
 
 class Patient(BaseModel):
     __tablename__ = 'patient'
 
     name = db.Column(VARCHAR(100), nullable=False)
-    phone = db.Column(INTEGER, nullable=False)
+    phone = db.Column(VARCHAR(50), nullable=False)
     email = db.Column(VARCHAR(100), nullable=False)
     
     appointments = relationship("Appointment", back_populates="patient")
